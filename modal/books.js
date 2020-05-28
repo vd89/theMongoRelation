@@ -15,7 +15,7 @@ const BookSchmea = new mongoose.Schema({
   },
   review:[
     {
-      type: Schema.type.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Review'
     }
   ]
