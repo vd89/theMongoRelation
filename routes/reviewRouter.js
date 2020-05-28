@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router()
 const Review = require('../model/review');
-const Book = require('../model/books')
 
 
 router.get('/',async (req,res) => {
@@ -13,18 +12,15 @@ router.get('/',async (req,res) => {
   }
 })
 
-router.post('/:bid',async (req,res) => {
+router.post('/',async (req,res) => {
   
-  try {
-    const review = new Review(req.body)
-    const bid = req.params.bid
-    const book = await Book.findById(bid)
-    
-    const data = await review.save()
-    res.send(data)
-  } catch (error) {
-    res.send(err)
-  }
+ try {
+   const review = new Review(req.body)
+   const data = await review.save()
+   res.send(data)
+ } catch (error) {
+   res.send(error)
+ }
 })
 
 module.exports = router

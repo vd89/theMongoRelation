@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router()
 const Book = require('../model/books')
+const Review = require('../model/review');
 
 router.get('/',async (req,res) => {
   try {
@@ -10,11 +11,16 @@ router.get('/',async (req,res) => {
     res.send(err)
   }
 })
-router.post('/',async (req,res) => {
-  const book = new Book(req.body)
+router.post('/:rid',async (req,res) => {
   try {
-    const data = await book.save()
-    res.send(data)
+    const rid = req.params.rid
+    const book = new Book(req.body)
+    const review = await Review.findById(rid)
+    book.review =review
+    await book.save()
+    review.books.push(book)
+    await review.save()
+    res.json(book)
   } catch (err) {
     res.send(err)
   }
